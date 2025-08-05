@@ -1,0 +1,24 @@
+{
+  "tech": ["JavaScript", "CSS", "Node.js", "Electron", "HTML"],
+  "features": [
+    "Multibase conversions",
+    "User-friendly interface",
+    "Cross-platform compatibility",
+    "Real-time calculations",
+    "History of conversions"
+  ],
+  "stack": {
+    "language": "JavaScript",
+    "framework": "Node.js",
+    "tools": ["Electron", "npm", "HTML", "CSS"],
+    "database": "None"
+  },
+  "screenshots": [
+    "https://raw.githubusercontent.com/Geovanni-Gonzalez/TicTacToe-x86-ASM/main/screenshots/image.png"
+  ],
+
+  "description": {
+    "es": "Calculadora multibase desarrollada con JavaScript y Electron. Permite realizar conversiones entre diferentes bases numéricas y cuenta con una interfaz gráfica intuitiva.",
+    "en": "Multibase calculator developed with JavaScript and Electron. Allows conversions between different numeric bases and features an intuitive graphical interface."
+  }
+}
