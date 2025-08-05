@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora MultiBase</title>
+    <link rel="stylesheet" type="text/css" href="Calculadora.css">
+</head>
+<body class="bodyStyle"> 
+    <div class="contenedor"> 
+        <aside class="lateral"></aside>
+        <main class="central">
+            <section class="cBHistorial">
+                <button id="bHistorial" class="bCerrar" onclick="verHistorial()">Ver historial</button>
+            </section>
+            <section class="cCalculadora">
+                <div class="pantalla">
+                    <textarea id="input" class="input" placeholder="Ingrese la operación deseada" onkeydown="pTeclas(event)"></textarea>
+                    <textarea id="textR" class="textR texto" readonly>Resultado</textarea>
+                </div>
+                <div class="cBotones"> 
+                    <div class="filasB">
+                        <button class="bInfo" onclick="mostrarEnInput('(')">(</button>
+                        <button class="bInfo" onclick="mostrarEnInput(')')">)</button>
+                        <button class="bInfo" onclick="mostrarEnInput('_')">_</button>
+                        <button class="bBorrar" onclick="eliminarDigito()">←</button>
+                        <button class="bOperaciones" onclick="mostrarEnInput('+')">+</button>
+                    </div>
+                    <div class="filasB">
+                        <button class="bDigitos" onclick="mostrarEnInput('0')">0</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('1')">1</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('2')">2</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('3')">3</button>
+                        <button class="bOperaciones" onclick="mostrarEnInput('-')">-</button>
+                    </div>
+                    <div class="filasB">
+                        <button class="bDigitos" onclick="mostrarEnInput('4')">4</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('5')">5</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('6')">6</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('7')">7</button>
+                        <button class="bOperaciones" onclick="mostrarEnInput('*')">×</button>
+                    </div>
+                    <div class="filasB">
+                        <button class="bDigitos" onclick="mostrarEnInput('8')">8</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('9')">9</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('A')">A</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('B')">B</button>
+                        <button class="bOperaciones" onclick="mostrarEnInput('/')">÷</button>
+                    </div>
+                    <div class="filasB">
+                        <button class="bDigitos" onclick="mostrarEnInput('C')">C</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('D')">D</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('E')">E</button>
+                        <button class="bDigitos" onclick="mostrarEnInput('F')">F</button>
+                        <button class="bIgual" onclick="igual()">=</button>
+                    </div>
+                </div>
+            </section>
+            <section class="cInfo texto"></section>
+                <ul>
+                    <li>El operando se debe ingresar con formato <strong>numero_base</strong>.</li>
+                    <li>Bases permitidas: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16.</li>
+                    <li>Puede hacer operaciones con operandos de diferentes bases.</li>
+                    <li>Al presionar <strong>=</strong>, elija la base del resultado.</li>
+                    <li>No se aceptan operaciones como -+, +-, ++ o --.</li>
+                    <li>Solo se hacen operaciones con números enteros, por lo que los resultados también serán enteros.</li>
+                </ul>
+            </section>
+        </main>
+        <aside class="lateral"></aside>
+    </div>
+
+    <dialog id="historial">
+        <h1 class="texto">Historial</h1>
+        <div id="historialTexto" class="texto"></div>
+        <button id="cerrar" class="bCerrar">Cerrar</button>
+    </dialog>
+
+    <dialog id="baseResultado">
+        <h1 class="texto">¿En cuál base le gustaría su resultado (2-16)?</h1>
+        <div class="texto">
+            <input type="text" id="baResultado" class="inputR" placeholder="Ingrese aquí el valor">
+        </div>
+        <button id="ok" class="bCerrar">OK</button>
+    </dialog>
+
+    <dialog id="error">
+        <h1 class="texto">¡Error!</h1>
+        <div class="texto">
+            <p id="errorTexto"></p>
+        </div>
+        <button id="cerrarE" class="bCerrar">Cerrar</button>
+    </dialog>
+
+    <script src="FuncionesCalculadora.js"></script>
+</body>
+</html>
