@@ -30,7 +30,7 @@ function conversion(numero, baseNum, baseDeseada, trackSteps = false) {
         // res = res * baseNum + digito
         let prod = multiplicacion(res, baseFuenteStr, baseDeseada);
         let previoRes = res;
-        res = suma(prod, digitoVal.toString(), baseDeseada);
+        res = cerosAdelante(suma(prod, digitoVal.toString(), baseDeseada));
 
         if (trackSteps) {
             lastSteps.push(`Paso ${i + 1}: (${previoRes} * ${baseFuenteStr}) + ${numero[i]} = <strong>${res}</strong>`);
@@ -45,9 +45,10 @@ function conversion(numero, baseNum, baseDeseada, trackSteps = false) {
 *  Realiza la suma de 2 numeros en una misma base
 **************************************************/
 function suma(operador1, operador2, base) {
+    base = Number(base);
     var i = 0;
     var len1 = operador1.length;
-    var len2 = operador2.length
+    var len2 = operador2.length;
     var op1 = '';
     var op2 = '';
     var cociente = 0;
@@ -89,7 +90,7 @@ function suma(operador1, operador2, base) {
         } else {
             var residuo = numALetra((sumaO % base).toString());
             cociente = Math.floor(sumaO / base);
-            resultado = residuo + resultado
+            resultado = residuo + resultado;
             flag = true;
         }
 
@@ -171,37 +172,38 @@ function resta(operador1, operador2, base) {
 *  Realiza la multiplicación de 2 numeros en una misma base
 **************************************************/
 function multiplicacion(operador1, operador2, base) {
+    base = Number(base);
     var len2 = operador2.length;
-    var flag = false;
     var resultado = '0';
     var i = 0;
 
     while (len2 > 0) {
+        var flag = false; // Reset flag for each digit of multiplier
         var op2 = letraANum(operador2[len2 - 1]);
         var len1 = operador1.length;
         var cociente = 0;
         var resultado1 = '';
 
         while (len1 > 0) {
-            var multiplicacion = 1;
+            var prodVal = 1;
             var op1 = letraANum(operador1[len1 - 1]);
             var residuo = 0;
 
-            multiplicacion = Number(op2) * Number(op1);
+            prodVal = Number(op2) * Number(op1);
 
             if (flag == true) {
-                multiplicacion = (Number(op2) * Number(op1)) + cociente;
+                prodVal = (Number(op2) * Number(op1)) + cociente;
             }
 
             flag = false;
 
-            if (multiplicacion >= base) {
-                cociente = Math.floor(multiplicacion / base);
-                residuo = multiplicacion % base;
+            if (prodVal >= base) {
+                cociente = Math.floor(prodVal / base);
+                residuo = prodVal % base;
                 resultado1 = numALetra(residuo.toString()) + resultado1;
                 flag = true;
             } else {
-                resultado1 = numALetra(multiplicacion.toString()) + resultado1;
+                resultado1 = numALetra(prodVal.toString()) + resultado1;
             }
 
             len1 -= 1;
@@ -217,11 +219,9 @@ function multiplicacion(operador1, operador2, base) {
 
         i += 1;
         len2 -= 1;
-        flag = false;
-
     }
 
-    return resultado;
+    return cerosAdelante(resultado);
 }
 
 /*****Nombre***************************************
@@ -331,35 +331,31 @@ function ordenarExpresion(expresion) {
     var operacionOrdenada = "";
     for (let i = 0; i < expresion.length; i++) {
         const caracter = expresion[i];
+
         if (caracter === '(' || caracter === ')') {
             operacionOrdenada += caracter;
         } else if (operadores.includes(caracter)) {
             operacionOrdenada += caracter;
-        } else if (!isNaN(parseInt(caracter))) {
-            let numero = parseInt(caracter);
-            let j = i + 1;
-            while (j < expresion.length && !isNaN(parseInt(expresion[j]))) {
-                numero = numero * 10 + parseInt(expresion[j]);
+        } else if ((caracter.charCodeAt(0) >= 48 && caracter.charCodeAt(0) <= 57) || pilaLetras.includes(caracter)) {
+            // Unify alphanumeric number extraction
+            let numeroStr = "";
+            let j = i;
+            while (j < expresion.length && ((expresion[j].charCodeAt(0) >= 48 && expresion[j].charCodeAt(0) <= 57) ||
+                pilaLetras.includes(expresion[j]))) {
+                numeroStr += expresion[j];
                 j++;
             }
-            operacionOrdenada += conversion(numero, pilaBases[0], baseMayor) + "_" + baseMayor.toString();
+
+            // Convert to the major base if necessary
+            operacionOrdenada += conversion(numeroStr, pilaBases[0], baseMayor) + "_" + baseMayor.toString();
             pilaBases.shift();
             i = j - 1;
         } else if (caracter === '_') {
+            // Skip the base part in the original expression (it's handled above)
             let j = i + 1;
-            while (j < expresion.length && !isNaN(parseInt(expresion[j]))) {
+            while (j < expresion.length && (expresion[j].charCodeAt(0) >= 48 && expresion[j].charCodeAt(0) <= 57)) {
                 j++;
             }
-            i = j - 1;
-        } else if (pilaLetras.includes(caracter)) {
-            let letra = caracter;
-            let j = i + 1;
-            while (j < expresion.length && pilaLetras.includes(expresion[j])) {
-                letra = letra + expresion[j];
-                j++;
-            }
-            operacionOrdenada += conversion(letra, pilaBases[0], baseMayor) + "_" + baseMayor.toString();
-            pilaBases.shift();
             i = j - 1;
         }
     }
@@ -399,7 +395,7 @@ function calcular(expresion) {
         const op = pilaOps.pop();
         const base = pilaBases.pop();
 
-        let res = operadores[op](num1.toString(), num2.toString(), base);
+        let res = cerosAdelante(operadores[op](num1.toString(), num2.toString(), base));
         lastCalcSteps.push(`Operación: ${num1}_${base} ${op} ${num2}_${base} = <strong>${res}_${base}</strong>`);
         pilaNum.push(res);
     };
@@ -528,6 +524,7 @@ function esMayor(operador1, operador2) {
 *  cerosAdelante
 **************************************************/
 function cerosAdelante(numero) {
+    if (typeof numero !== 'string') numero = String(numero);
     var digito = numero[0];
     while (digito == '0') {
         numero = numero.slice(1);
