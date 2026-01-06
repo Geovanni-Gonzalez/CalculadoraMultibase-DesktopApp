@@ -1,24 +1,34 @@
 {
-  "tech": ["JavaScript", "CSS", "Node.js", "Electron", "HTML"],
+  "project": "Calculadora Multibase Desktop",
+  "tech": [
+    "JavaScript (ES6+)",
+    "Electron",
+    "Node.js",
+    "Vanilla CSS",
+    "HTML5"
+  ],
   "features": [
-    "Multibase conversions",
-    "User-friendly interface",
-    "Cross-platform compatibility",
-    "Real-time calculations",
-    "History of conversions"
+    "Efficient Multibase Conversions (Horner's Method)",
+    "Step-by-Step Conversion Visualizer",
+    "Comprehensive Expression Evaluation Trace",
+    "Optimized Long Division Algorithm (O(Digits * Base))",
+    "Persistent Calculation History with LocalStorage",
+    "Asynchronous Calculation Engine (Web Workers)",
+    "Premium Glassmorphism UI with Dynamic Base-Based Themes"
   ],
   "stack": {
     "language": "JavaScript",
-    "framework": "Node.js",
-    "tools": ["Electron", "npm", "HTML", "CSS"],
-    "database": "None"
+    "framework": "Electron",
+    "tools": [
+      "Web Workers",
+      "npm",
+      "Node.js Integration"
+    ],
+    "database": "LocalStorage (Persistent History)"
   },
-  "screenshots": [
-    "https://raw.githubusercontent.com/Geovanni-Gonzalez/TicTacToe-x86-ASM/main/screenshots/image.png"
-  ],
-
+  "screenshots": [],
   "description": {
-    "es": "Calculadora multibase desarrollada con JavaScript y Electron. Permite realizar conversiones entre diferentes bases numéricas y cuenta con una interfaz gráfica intuitiva.",
-    "en": "Multibase calculator developed with JavaScript and Electron. Allows conversions between different numeric bases and features an intuitive graphical interface."
+    "es": "Potente calculadora multibase de escritorio diseñada para estudiantes y entusiastas. Combina un motor matemático optimizado con trazado de pasos educativos, arquitectura asíncrona mediante Web Workers y una interfaz premium con estética Glassmorphism.",
+    "en": "Powerful desktop multibase calculator designed for students and enthusiasts. It combines an optimized mathematical engine with educational step-tracing, asynchronous architecture via Web Workers, and a premium Glassmorphism UI."
   }
 }
