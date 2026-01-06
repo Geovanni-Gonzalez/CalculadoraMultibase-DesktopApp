@@ -6,12 +6,13 @@ const HTML_FILE = 'Calculadora.html';
 function createMainWindow() {
     const mainWindow = new BrowserWindow({
         title: "Calculadora Multibase",
-        width: 600,
-        height: 850,
-        resizable: false,
+        width: 900,
+        height: 800,
+        resizable: true,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
+            nodeIntegrationInWorker: true
         }
     });
     mainWindow.loadFile(path.join(__dirname, HTML_FILE));

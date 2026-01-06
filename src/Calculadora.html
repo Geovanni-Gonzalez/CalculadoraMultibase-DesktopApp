@@ -9,9 +9,18 @@
 </head>
 
 <body class="bodyStyle">
-    <div class="contenedor">
-        <aside class="lateral"></aside>
-        <main class="central">
+    <main class="contenedor">
+        <!-- Sidebar for Procedure -->
+        <aside class="lateral">
+            <div class="procedimiento" id="procedimientoContenedor">
+                <h3>Procedimiento</h3>
+                <div id="procedimientoTexto">
+                    <p class="step">Realice una operación para ver los pasos.</p>
+                </div>
+            </div>
+        </aside>
+
+        <section class="central">
             <section class="cBHistorial">
                 <button id="bHistorial" class="bCerrar" onclick="verHistorial()">Ver historial</button>
             </section>
@@ -55,7 +64,7 @@
                         <button class="bDigitos" onclick="mostrarEnInput('D')">D</button>
                         <button class="bDigitos" onclick="mostrarEnInput('E')">E</button>
                         <button class="bDigitos" onclick="mostrarEnInput('F')">F</button>
-                        <button class="bIgual" onclick="igual()">=</button>
+                        <button class="bIgual" id="btnIgual" onclick="igual()">=</button>
                     </div>
                 </div>
             </section>
@@ -67,8 +76,9 @@
                     <li>Soporte para paréntesis anidados y jerarquía de operaciones.</li>
                 </ul>
             </section>
-        </main>
-        <aside class="lateral"></aside>
+        </section>
+    </main>
+    <aside class="lateral"></aside>
     </div>
 
     <dialog id="historial">

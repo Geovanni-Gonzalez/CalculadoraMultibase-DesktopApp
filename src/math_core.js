@@ -1,11 +1,17 @@
 // math_core.js - Core logic for Multibase Calculator
+let lastSteps = [];
+
+function getSteps() {
+    return lastSteps;
+}
 
 /*****Nombre***************************************
 *  conversion
 *  Convierte un numero en cualquier base (2-16) a la base deseada (2-16)
 *  Implementación eficiente (Método de Horner) sin base intermedia.
 **************************************************/
-function conversion(numero, baseNum, baseDeseada) {
+function conversion(numero, baseNum, baseDeseada, trackSteps = false) {
+    if (trackSteps) lastSteps = [];
     if (numero === '0' || numero === '') return '0';
 
     // El número fuente viene como string (ej: "1A")
@@ -15,11 +21,20 @@ function conversion(numero, baseNum, baseDeseada) {
     let res = "0";
     let baseFuenteStr = baseNum.toString(); // Multiplicaremos por esto en cada paso
 
+    if (trackSteps) {
+        lastSteps.push(`Iniciando conversión de base ${baseNum} a ${baseDeseada}: <strong>${numero}</strong>`);
+    }
+
     for (let i = 0; i < numero.length; i++) {
         let digitoVal = letraANum(numero[i]);
         // res = res * baseNum + digito
         let prod = multiplicacion(res, baseFuenteStr, baseDeseada);
+        let previoRes = res;
         res = suma(prod, digitoVal.toString(), baseDeseada);
+
+        if (trackSteps) {
+            lastSteps.push(`Paso ${i + 1}: (${previoRes} * ${baseFuenteStr}) + ${numero[i]} = <strong>${res}</strong>`);
+        }
     }
 
     return cerosAdelante(res);
@@ -212,34 +227,62 @@ function multiplicacion(operador1, operador2, base) {
 /*****Nombre***************************************
 *  division
 *  Realiza la division de 2 numeros en una misma base
+*  Algoritmo de Division Larga (Eficiente: O(Digits * Base))
 **************************************************/
 function division(operador1, operador2, base) {
-    var resultado = '0';
-    var flag = esMayor(operador1, operador2);
+    let dividendo = cerosAdelante(operador1);
+    let divisor = cerosAdelante(operador2);
 
-    if (cerosAdelante(operador1) === '0' && cerosAdelante(operador2) === '0') {
-        throw new Error('Division invalida');
+    if (divisor === '0') {
+        throw new Error('División por cero');
     }
-
-    if (cerosAdelante(operador1) === '0' && cerosAdelante(operador2) != '0') {
+    if (dividendo === '0') {
         return '0';
     }
 
-    if (cerosAdelante(operador1) != '0' && cerosAdelante(operador2) === '0') {
-        throw new Error('Division entre 0');
+    // Si el dividendo es menor que el divisor, el resultado es 0
+    if (!esMayor(dividendo, divisor) && dividendo !== divisor) {
+        return '0';
     }
 
-    if (cerosAdelante(operador1) == cerosAdelante(operador2)) {
-        return '1';
+    let cociente = "";
+    let rem = "0";
+
+    // Procesamos dígito por dígito del dividendo
+    for (let i = 0; i < dividendo.length; i++) {
+        // rem = rem * base + digito_actual
+        let remBase = multiplicacion(rem, base.toString(), base);
+        rem = suma(remBase, dividendo[i], base);
+        rem = cerosAdelante(rem);
+
+        // Encontrar el dígito más grande q (0 a base-1) tal que divisor * q <= rem
+        let q = 0;
+        let foundQ = "0";
+
+        for (let j = 1; j < base; j++) {
+            let digitJ = numALetra(j.toString());
+            let trial = multiplicacion(divisor, digitJ, base);
+
+            // Si trial <= rem
+            if (esMayor(rem, trial) || rem === trial) {
+                foundQ = digitJ;
+                q = j;
+            } else {
+                break; // Ya nos pasamos
+            }
+        }
+
+        cociente += foundQ;
+
+        // Restar el producto encontrado del residuo actual
+        if (q > 0) {
+            let product = multiplicacion(divisor, foundQ, base);
+            rem = resta(rem, product, base);
+            rem = cerosAdelante(rem);
+        }
     }
 
-    while (flag == true) {
-        operador1 = resta(operador1, operador2, base);
-        resultado = suma(resultado, '1', base);
-        flag = esMayor(operador1, operador2);
-    }
-
-    return resultado;
+    return cerosAdelante(cociente);
 }
 
 /*****Nombre***************************************
@@ -323,10 +366,17 @@ function ordenarExpresion(expresion) {
     return operacionOrdenada;
 }
 
+let lastCalcSteps = [];
+
+function getCalcSteps() {
+    return lastCalcSteps;
+}
+
 /*****Nombre***************************************
 * calcular  
 **************************************************/
 function calcular(expresion) {
+    lastCalcSteps = [];
     const pilaNum = [];
     const pilaOps = [];
     const pilaBases = [];
@@ -348,8 +398,10 @@ function calcular(expresion) {
         const num1 = pilaNum.pop();
         const op = pilaOps.pop();
         const base = pilaBases.pop();
-        // Operadores return strings, which is correct for our stack
-        pilaNum.push(operadores[op](num1.toString(), num2.toString(), base));
+
+        let res = operadores[op](num1.toString(), num2.toString(), base);
+        lastCalcSteps.push(`Operación: ${num1}_${base} ${op} ${num2}_${base} = <strong>${res}_${base}</strong>`);
+        pilaNum.push(res);
     };
 
     for (let i = 0; i < expresion.length; i++) {
@@ -369,7 +421,6 @@ function calcular(expresion) {
         } else if ((caracter.charCodeAt(0) >= 48 && caracter.charCodeAt(0) <= 57) || pilaLetras.includes(caracter)) {
             let valor = "";
             let j = i;
-            // Extract the full number/word (e.g. "123" or "AB")
             while (j < expresion.length && ((expresion[j].charCodeAt(0) >= 48 && expresion[j].charCodeAt(0) <= 57) ||
                 pilaLetras.includes(expresion[j]))) {
                 valor += expresion[j];
@@ -387,19 +438,14 @@ function calcular(expresion) {
             pilaBases.push(Number(baseStr));
             i = j - 1;
         }
-
-        // Potential logic issue: while(pilaNum.length > 1) in the main loop might process 
-        // operators prematurely without respecting precedence. 
-        // Standard Shunting-yard processes operators based on priority when pushed.
     }
 
-    // Final processing
     while (pilaOps.length > 0) {
         procesarOperacion();
     }
 
     var finalResult = pilaNum[0].toString();
-    var finalBase = pilaBases[0] || 10; // Fallback to 10 if somehow empty
+    var finalBase = pilaBases[0] || 10;
     return finalResult + '_' + finalBase.toString();
 }
 
@@ -663,5 +709,7 @@ module.exports = {
     actualizarNum,
     agregar0,
     esBaseValida,
-    validaEntrada
+    validaEntrada,
+    getSteps,
+    getCalcSteps
 };

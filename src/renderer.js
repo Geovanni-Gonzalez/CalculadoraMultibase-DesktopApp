@@ -62,30 +62,82 @@ const historyManager = new HistoryManager();
 
 // --- UI Functions (Exposed to Window) ---
 
+// --- Worker Initialization ---
+const calcWorker = new Worker('calc_worker.js');
+
+calcWorker.onmessage = function (e) {
+    const { type, payload } = e.data;
+    const btnIgual = document.getElementById("btnIgual"); // Need to ensure it has ID
+
+    if (type === 'SUCCESS') {
+        const { resultado, steps, valorInput, baseResultado: bRes } = payload;
+
+        // Show procedure panel
+        const lateral = document.querySelector('.lateral');
+        if (lateral) lateral.style.display = 'flex';
+
+        // Render Steps efficiently
+        const procContenedor = document.getElementById('procedimientoTexto');
+        if (procContenedor && steps) {
+            const fragment = document.createDocumentFragment();
+            steps.forEach(step => {
+                const div = document.createElement('div');
+                div.className = 'step';
+                div.innerHTML = step;
+                fragment.appendChild(div);
+            });
+            procContenedor.innerHTML = '';
+            procContenedor.appendChild(fragment);
+        }
+
+        // Apply Theme
+        const body = document.body;
+        let theme = 'default';
+        const bNum = Number(bRes);
+        if (bNum === 2) theme = 'binary';
+        else if (bNum === 10) theme = 'decimal';
+        else if (bNum === 16) theme = 'hex';
+        body.setAttribute('data-theme', theme);
+
+        // History
+        var resultadoH = valorInput + ' = ' + resultado + '_' + bRes;
+        historyManager.save(resultadoH);
+        historyManager.render();
+
+        document.getElementById("input").value = '';
+        document.getElementById("textR").value = resultado + '_' + bRes;
+
+    } else if (type === 'ERROR') {
+        window.mostrarErrores(payload);
+        console.error(payload);
+    }
+
+    // UI Cleanup
+    if (btnIgual) btnIgual.textContent = '=';
+    document.body.style.cursor = 'default';
+};
+
 window.igual = async function () {
-    var valorInput = document.getElementById("input").value;
+    const valorInput = document.getElementById("input").value;
+    const btnIgual = document.getElementById("btnIgual");
 
     try {
-        math.validaEntrada(valorInput);
+        // We still validate basic existence here or rely on worker
+        if (!valorInput.trim()) return;
 
         baseResultado = await pResultado();
         document.getElementById("baResultado").value = '';
 
-        var entradaNueva = math.ordenarExpresion(valorInput);
-        var valorResultado = math.calcular(entradaNueva);
+        // UI Feedback
+        if (btnIgual) btnIgual.textContent = '...';
+        document.body.style.cursor = 'wait';
+        document.getElementById("textR").value = 'Calculando...';
 
-        var numBase = math.numeroBase(valorResultado);
-        var resultadoOp = numBase[0];
-        var baseOp = numBase[1];
-        var resultado = math.conversion(resultadoOp, baseOp, baseResultado);
-
-        // History
-        var resultadoH = valorInput + ' = ' + resultado + '_' + baseResultado;
-        historyManager.save(resultadoH);
-        historyManager.render(); // Update UI
-
-        document.getElementById("input").value = '';
-        document.getElementById("textR").value = resultado + '_' + baseResultado;
+        // Send to background worker
+        calcWorker.postMessage({
+            type: 'CALC',
+            payload: { valorInput, baseResultado }
+        });
 
     } catch (error) {
         window.mostrarErrores(error.message);
