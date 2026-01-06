@@ -1,251 +1,269 @@
-/* General improvements */
+/* Glassmorphism & Modern UI */
 body.bodyStyle {
-    background: linear-gradient(135deg, #181c24 0%, #232a36 100%);
+    background: radial-gradient(circle at 50% 10%, #2b3240 0%, #161b22 100%);
     min-height: 100vh;
     margin: 0;
-    font-family: "Segoe UI", "Arial", sans-serif;
-    color: #e3e8ef;
-}
-
-/* Responsive container */
-.contenedor {
-    background: rgba(34, 40, 49, 0.95);
+    font-family: 'Inter', "Segoe UI", sans-serif;
+    color: #f0f6fc;
     display: flex;
-    gap: 32px;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    max-width: 1100px;
-    margin: 40px auto;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contenedor {
+    animation: fadeIn 0.6s ease-out;
+    background: rgba(22, 27, 34, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    margin: 20px;
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
     flex-wrap: wrap;
-    border: 1px solid #232a36;
+    justify-content: center;
 }
 
-/* Sidebars */
+/* Sidebars hidden by default to focus on calc */
 .lateral {
-    background: rgba(24,28,36,0.85);
-    flex: 1 1 120px;
-    min-width: 120px;
-    box-sizing: border-box;
-    margin-left: 0;
-    border-radius: 16px;
     display: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-/* Central content */
 .central {
-    flex: 3 1 520px;
-    min-width: 340px;
-    box-sizing: border-box;
-    font-weight: 500;
-    padding: 32px;
-    border-radius: 16px;
-    background: #232a36;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    flex: 1;
+    min-width: 360px;
+    max-width: 480px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    border: 1px solid #2d3440;
+    gap: 20px;
+    padding: 10px;
 }
 
-/* Historial button section */
+/* History Button */
 .cBHistorial {
-    min-width: 220px;
-    height: 65px;
-    margin-top: 24px;
-    justify-content: flex-end;
     display: flex;
+    justify-content: flex-end;
 }
 
-/* Calculator section */
-.cCalculadora {
-    box-sizing: border-box;
-    min-width: 340px;
-    min-height: 700px;
-    padding: 24px 0;
+.bCerrar {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #58a6ff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
 }
 
-/* Display area */
+.bCerrar:hover {
+    background: rgba(88, 166, 255, 0.15);
+    border-color: #58a6ff;
+    transform: translateY(-1px);
+}
+
+/* Calculator Area */
 .pantalla {
-    width: 100%;
-    min-height: 110px;
-    margin-bottom: 8px;
+    background: rgba(13, 17, 23, 0.6);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-/* Input and result */
-.input {
+.input,
+.textR {
+    background: transparent;
+    border: none;
+    color: #f0f6fc;
     width: 100%;
-    height: 110px;
-    border: 1.5px solid #2d3440;
-    border-radius: 12px;
-    font-size: 32px;
-    font-weight: 400;
     resize: none;
-    padding: 16px;
-    background: #232a36;
-    color: #e3e8ef;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transition: border 0.2s;
-}
-.input:focus {
-    border-color: #00b4d8;
+    font-family: inherit;
     outline: none;
+}
+
+.input {
+    font-size: 32px;
+    height: 80px;
+    font-weight: 300;
 }
 
 .textR {
-    width: 100%;
-    height: 36px;
-    border: 1.5px solid #2d3440;
-    border-radius: 8px;
     text-align: right;
     font-size: 24px;
-    font-weight: 400;
-    resize: none;
-    padding: 6px 12px;
-    background: #232a36;
-    color: #00b4d8;
+    color: #79c0ff;
+    /* Result Color */
+    height: 30px;
 }
 
-/* Buttons grid */
+/* Grid Layout for Buttons */
 .cBotones {
-    min-width: 340px;
-    min-height: 540px;
-    margin-top: 16px;
-}
-
-.filasB {
-    min-width: 340px;
-    min-height: 64px;
-    margin-bottom: 4px;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    /* 5 buttons per row */
     gap: 12px;
 }
 
-/* Buttons styles */
-.bOperaciones,
-.bDigitos,
-.bInfo,
-.bIgual,
+.filasB {
+    display: contents;
+    /* Use grid layout directly */
+}
+
+button {
+    height: 60px;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Colors */
+/* Operations: Right column usually */
+.bOperaciones {
+    background: linear-gradient(145deg, #1f242e, #161b22);
+    color: #79c0ff;
+    border: 1px solid rgba(121, 192, 255, 0.2);
+}
+
+.bOperaciones:hover {
+    background: #1f6feb;
+    color: white;
+    border-color: transparent;
+}
+
+/* Numbers */
+.bDigitos {
+    background: rgba(255, 255, 255, 0.03);
+    color: #e6edf3;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bDigitos:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Special Buttons */
+.bInfo {
+    /* Parenthesis and Base indicator */
+    background: rgba(30, 41, 59, 0.5);
+    color: #d2a8ff;
+    border: 1px solid rgba(210, 168, 255, 0.1);
+}
+
+.bInfo:hover {
+    background: rgba(210, 168, 255, 0.15);
+    border-color: #d2a8ff;
+}
+
 .bBorrar {
-    min-width: 64px;
-    min-height: 64px;
-    border: none;
-    border-radius: 14px;
-    font-size: 30px;
-    font-weight: 600;
-    color: #e3e8ef;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
-    margin-right: 2px;
-    outline: none;
-    flex: 1 1 64px;
-    letter-spacing: 1px;
-}
-.bOperaciones { background: linear-gradient(135deg, #00b4d8 70%, #0077b6 100%); }
-.bOperaciones:hover { background: #0077b6; box-shadow: 0 4px 16px rgba(0,180,216,0.18); }
-.bDigitos { background: linear-gradient(135deg, #48cae4 70%, #00b4d8 100%); }
-.bDigitos:hover { background: #00b4d8; box-shadow: 0 4px 16px rgba(72,202,228,0.18); }
-.bInfo { background: linear-gradient(135deg, #90e0ef 70%, #caf0f8 100%); color: #232a36; }
-.bInfo:hover { background: #48cae4; box-shadow: 0 4px 16px rgba(144,224,239,0.18); }
-.bIgual { background: linear-gradient(135deg, #0077b6 70%, #00b4d8 100%); }
-.bIgual:hover { background: #00b4d8; box-shadow: 0 4px 16px rgba(0,119,182,0.18); }
-.bBorrar { background: linear-gradient(135deg, #ff6f61 70%, #f7b2ad 100%); }
-.bBorrar:hover { background: #d90429; box-shadow: 0 4px 16px rgba(255,111,97,0.18); }
-
-/* Main action buttons */
-.bCerrar {
-    width: 130px;
-    height: 48px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #d90429 70%, #ff6f61 100%);
-    border: none;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    font-size: 22px;
-    box-shadow: 0 2px 8px rgba(217,4,41,0.10);
-}
-.bCerrar:hover {
-    background: #ff6f61;
-    box-shadow: 0 4px 16px rgba(217,4,41,0.18);
+    background: rgba(218, 54, 51, 0.1);
+    color: #ff7b72;
+    border: 1px solid rgba(218, 54, 51, 0.2);
 }
 
-/* Info section */
-.cInfo {
-    margin-top: 32px;
-    background: #232a36;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    border: 1px solid #2d3440;
-    color: #90e0ef;
+.bBorrar:hover {
+    background: #da3633;
+    color: white;
+    border-color: transparent;
 }
-.cInfo ul {
-    margin: 0;
-    padding-left: 24px;
-    font-size: 19px;
+
+.bIgual {
+    background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+    color: white;
+    grid-column: span 1;
+    /* Match others, or span? */
+    box-shadow: 0 0 15px rgba(46, 160, 67, 0.4);
 }
-.cInfo li {
-    margin-bottom: 10px;
+
+.bIgual:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 20px rgba(46, 160, 67, 0.6);
 }
 
 /* Dialogs */
 dialog {
-    border: none;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    padding: 40px 28px;
-    background: #232a36;
-    max-width: 420px;
-    width: 95vw;
-    border: 1px solid #2d3440;
-    color: #e3e8ef;
-}
-dialog h1 {
-    font-size: 30px;
-    margin-bottom: 20px;
-    font-weight: 600;
-    color: #00b4d8;
-}
-dialog .texto {
-    font-size: 20px;
-    margin-bottom: 16px;
-    color: #90e0ef;
-}
-.inputR {
-    font-size: 22px;
-    font-weight: 400;
-    margin-bottom: 12px;
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1.5px solid #2d3440;
-    background: #232a36;
-    color: #e3e8ef;
+    background: #161b22;
+    color: #f0f6fc;
+    border: 1px solid #30363d;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    max-width: 400px;
+    width: 90%;
 }
 
-/* Responsive adjustments */
-@media (max-width: 900px) {
-    .contenedor {
-        flex-direction: column;
-        gap: 20px;
-        padding: 16px;
-        margin: 16px auto;
-    }
-    .central {
-        min-width: 0;
-        padding: 16px;
-    }
-    .cBotones, .filasB {
-        min-width: 0;
-    }
-    .lateral {
-        display: none;
-    }
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+}
+
+dialog h1 {
+    font-size: 20px;
+    color: #79c0ff;
+    margin-bottom: 20px;
+}
+
+.inputR {
+    width: 100%;
+    padding: 12px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.texto {
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: #8b949e;
+}
+
+#historialTexto p {
+    border-bottom: 1px solid #30363d;
+    padding: 8px 0;
+    font-family: monospace;
+    font-size: 1.1em;
+}
+
+/* Info Section below buttons */
+.cInfo {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    font-size: 0.85em;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cInfo ul {
+    padding-left: 20px;
 }

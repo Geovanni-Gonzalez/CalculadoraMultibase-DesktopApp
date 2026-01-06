@@ -10,8 +10,8 @@ function createMainWindow() {
         height: 850,
         resizable: false,
         webPreferences: {
-            nodeIntegration: false,
-            contextIsolation: true,
+            nodeIntegration: true,
+            contextIsolation: false,
         }
     });
     mainWindow.loadFile(path.join(__dirname, HTML_FILE));

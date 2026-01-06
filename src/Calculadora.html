@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora MultiBase</title>
     <link rel="stylesheet" type="text/css" href="Calculadora.css">
 </head>
-<body class="bodyStyle"> 
-    <div class="contenedor"> 
+
+<body class="bodyStyle">
+    <div class="contenedor">
         <aside class="lateral"></aside>
         <main class="central">
             <section class="cBHistorial">
@@ -15,10 +17,11 @@
             </section>
             <section class="cCalculadora">
                 <div class="pantalla">
-                    <textarea id="input" class="input" placeholder="Ingrese la operación deseada" onkeydown="pTeclas(event)"></textarea>
+                    <textarea id="input" class="input" placeholder="Ingrese la operación deseada"
+                        onkeydown="pTeclas(event)"></textarea>
                     <textarea id="textR" class="textR texto" readonly>Resultado</textarea>
                 </div>
-                <div class="cBotones"> 
+                <div class="cBotones">
                     <div class="filasB">
                         <button class="bInfo" onclick="mostrarEnInput('(')">(</button>
                         <button class="bInfo" onclick="mostrarEnInput(')')">)</button>
@@ -56,14 +59,12 @@
                     </div>
                 </div>
             </section>
-            <section class="cInfo texto"></section>
+            <section class="cInfo texto">
                 <ul>
-                    <li>El operando se debe ingresar con formato <strong>numero_base</strong>.</li>
-                    <li>Bases permitidas: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16.</li>
-                    <li>Puede hacer operaciones con operandos de diferentes bases.</li>
-                    <li>Al presionar <strong>=</strong>, elija la base del resultado.</li>
-                    <li>No se aceptan operaciones como -+, +-, ++ o --.</li>
-                    <li>Solo se hacen operaciones con números enteros, por lo que los resultados también serán enteros.</li>
+                    <li>No se admiten paréntesis vacíos ni operadores consecutivos.</li>
+                    <li>Solo se admiten valores **positivos** como entrada (el resultado puede ser negativo).</li>
+                    <li>Conversión directa entre bases sin base intermedia.</li>
+                    <li>Soporte para paréntesis anidados y jerarquía de operaciones.</li>
                 </ul>
             </section>
         </main>
@@ -92,6 +93,7 @@
         <button id="cerrarE" class="bCerrar">Cerrar</button>
     </dialog>
 
-    <script src="FuncionesCalculadora.js"></script>
+    <script src="renderer.js"></script>
 </body>
+
 </html>
