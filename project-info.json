@@ -1,34 +1,56 @@
 {
-  "project": "Calculadora Multibase Desktop",
-  "tech": [
-    "JavaScript (ES6+)",
-    "Electron",
-    "Node.js",
-    "Vanilla CSS",
-    "HTML5"
-  ],
-  "features": [
-    "Efficient Multibase Conversions (Horner's Method)",
-    "Step-by-Step Conversion Visualizer",
-    "Comprehensive Expression Evaluation Trace",
-    "Optimized Long Division Algorithm (O(Digits * Base))",
-    "Persistent Calculation History with LocalStorage",
-    "Asynchronous Calculation Engine (Web Workers)",
-    "Premium Glassmorphism UI with Dynamic Base-Based Themes"
-  ],
-  "stack": {
-    "language": "JavaScript",
-    "framework": "Electron",
-    "tools": [
+  "en": {
+    "tech": [
+      "Electron",
+      "JavaScript (ES6+)",
       "Web Workers",
-      "npm",
-      "Node.js Integration"
+      "CSS3 (Glassmorphism)"
     ],
-    "database": "LocalStorage (Persistent History)"
+    "features": [
+      "Efficient multibase conversions using Horner's Method",
+      "Educational step-by-step conversion visualizer",
+      "Real-time expression evaluation and process tracing",
+      "Asynchronous calculation engine via Web Workers API",
+      "Premium dynamic UI with base-responsive aesthetic themes"
+    ],
+    "stack": {
+      "language": "JavaScript",
+      "framework": "Electron",
+      "tools": [
+        "Node.js",
+        "NPM",
+        "Chrome Engine"
+      ],
+      "database": "Persistent LocalStorage History"
+    },
+    "screenshots": [],
+    "description": "A state-of-the-art mathematical workstation for desktop platforms, designed for architectural elegance and educational clarity. Built on the Electron framework, it features a non-blocking calculation engine powered by Web Workers to handle high-precision multibase arithmetic and expression tracing without UI lag. The application delivers a premium Glassmorphism aesthetic with themes that adapt to the selected numerical base, bridging the gap between a high-efficiency power tool and a sophisticated educational platform."
   },
-  "screenshots": [],
-  "description": {
-    "es": "Potente calculadora multibase de escritorio diseñada para estudiantes y entusiastas. Combina un motor matemático optimizado con trazado de pasos educativos, arquitectura asíncrona mediante Web Workers y una interfaz premium con estética Glassmorphism.",
-    "en": "Powerful desktop multibase calculator designed for students and enthusiasts. It combines an optimized mathematical engine with educational step-tracing, asynchronous architecture via Web Workers, and a premium Glassmorphism UI."
+  "es": {
+    "tech": [
+      "Electron",
+      "JavaScript (ES6+)",
+      "Web Workers",
+      "CSS3 (Glásmorfismo)"
+    ],
+    "features": [
+      "Conversiones multibase eficientes usando el Método de Horner",
+      "Visualizador educativo de conversiones paso a paso",
+      "Evaluación de expresiones y rastreo de procesos en tiempo real",
+      "Motor de cálculo asíncrono mediante la API de Web Workers",
+      "Interfaz dinámica premium con temas estéticos responsivos"
+    ],
+    "stack": {
+      "language": "JavaScript",
+      "framework": "Electron",
+      "tools": [
+        "Node.js",
+        "NPM",
+        "Motor Chrome"
+      ],
+      "database": "Historial Persistente en LocalStorage"
+    },
+    "screenshots": [],
+    "description": "Una estación de trabajo matemática de vanguardia para escritorio, diseñada para la elegancia arquitectónica y la claridad educativa. Basada en el framework Electron, cuenta con un motor de cálculo no bloqueante potenciado por Web Workers para manejar aritmética multibase de alta precisión. La aplicación ofrece una estética premium de Glásmorfismo con temas que se adaptan a la base numérica seleccionada, uniendo una herramienta de alta eficiencia con una plataforma educativa sofisticada."
   }
 }
