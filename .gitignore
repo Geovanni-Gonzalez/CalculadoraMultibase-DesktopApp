@@ -30,3 +30,15 @@ Thumbs.db
 # Misc
 *.bak
 *.tmp
+# Node / frontend
+.vite/
+.next/
+coverage/
+pnpm-debug.log*
+# Local agent/editor state
+.claude/
+CLAUDE.md
+# Environment and secrets
+# OS/editor noise
+desktop.ini
+# Logs and temporary files
