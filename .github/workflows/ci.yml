@@ -30,3 +30,6 @@ jobs:
           for file in main.js renderer.js math_core.js calc_worker.js; do
             node --check "$file"
           done
+
+      - name: Run math_core test suite
+        run: node --test tests/math_core.test.js

@@ -19,7 +19,10 @@ function conversion(numero, baseNum, baseDeseada, trackSteps = false) {
     // Res = Res * BaseFuente + DigitoActual (Todo calculado en BaseDeseada)
 
     let res = "0";
-    let baseFuenteStr = baseNum.toString(); // Multiplicaremos por esto en cada paso
+    // El multiplicador (base fuente) y cada dígito deben expresarse EN la base
+    // destino, porque suma/multiplicacion operan en baseDeseada. Usar el string
+    // decimal directo producía resultados erróneos para toda base destino != 10.
+    let baseFuenteStr = Number(baseNum).toString(baseDeseada).toUpperCase();
 
     if (trackSteps) {
         lastSteps.push(`Iniciando conversión de base ${baseNum} a ${baseDeseada}: <strong>${numero}</strong>`);
@@ -27,10 +30,11 @@ function conversion(numero, baseNum, baseDeseada, trackSteps = false) {
 
     for (let i = 0; i < numero.length; i++) {
         let digitoVal = letraANum(numero[i]);
-        // res = res * baseNum + digito
+        let digitoStr = Number(digitoVal).toString(baseDeseada).toUpperCase();
+        // res = res * baseNum + digito (todo en baseDeseada)
         let prod = multiplicacion(res, baseFuenteStr, baseDeseada);
         let previoRes = res;
-        res = cerosAdelante(suma(prod, digitoVal.toString(), baseDeseada));
+        res = cerosAdelante(suma(prod, digitoStr, baseDeseada));
 
         if (trackSteps) {
             lastSteps.push(`Paso ${i + 1}: (${previoRes} * ${baseFuenteStr}) + ${numero[i]} = <strong>${res}</strong>`);
